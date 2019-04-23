@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+  master:
+    build: 
+      context: .
+    restart: unless-stopped
+    depends_on:
+      - worker1
+      - worker2
+      - worker3
+    command: pytest --dist=load --tx socket=worker1:8888 --tx socket=worker2:8888 --tx socket=worker3:8888 --rsyncdir tests tests
+    restart: "no"
+  worker1:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker
+    ports:
+      - 8888
+    restart: unless-stopped
+  worker2:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker
+    ports:
+      - 8888
+    restart: unless-stopped
+  worker3:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker
+    ports:
+      - 8888
+    restart: unless-stopped
+

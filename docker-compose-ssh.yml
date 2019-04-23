@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  master:
+    build: 
+      context: .
+      dockerfile: Dockerfile-ssh
+    restart: unless-stopped
+    depends_on:
+      - worker1
+      - worker2
+      - worker3
+    command: pytest --dist=load --tx ssh=root@worker1 --tx ssh=root@worker2 --tx ssh=root@worker3 --rsyncdir tests tests
+    restart: "no"
+  worker1:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker-ssh
+    ports:
+      - 8888
+      - 22
+    restart: unless-stopped
+  worker2:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker-ssh
+    ports:
+      - 8888
+      - 22
+    restart: unless-stopped
+  worker3:
+    build: 
+      context: .
+      dockerfile: Dockerfile-worker-ssh
+    ports:
+      - 8888
+      - 22
+    restart: unless-stopped
+

@@ -1,0 +1,2 @@
+Host worker*
+	StrictHostKeyChecking no

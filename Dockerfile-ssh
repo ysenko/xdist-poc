@@ -1,0 +1,11 @@
+FROM python:3.7-alpine
+
+WORKDIR /opt/socketserver
+
+RUN pip install -U pip && pip install pytest pytest-xdist
+RUN apk update && apk add rsync openssh-client
+
+ADD ./tests /opt/socketserver/tests
+ADD ./keys/id_rsa /root/.ssh/id_rsa
+
+ADD ./ssh_client_config /root/.ssh/config
